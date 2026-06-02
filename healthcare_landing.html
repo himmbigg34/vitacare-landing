@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VitaCare Health — Modern Healthcare, On Your Terms</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0B1F3A;
+    --teal: #00B5A3;
+    --teal-light: #00D4BF;
+    --cream: #F8F5EF;
+    --warm: #F2EDE4;
+    --gold: #C8A96E;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(11,31,58,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,181,163,0.2);
+    animation: slideDown 0.6s ease;
+  }
+  @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--teal); }
+
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav ul a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  nav ul a:hover { color: var(--teal); }
+
+  .nav-cta {
+    background: var(--teal); color: var(--white);
+    padding: 0.6rem 1.4rem; border-radius: 50px;
+    text-decoration: none; font-size: 0.88rem; font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,181,163,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,169,110,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(60px); pointer-events: none; opacity: 0.4;
+  }
+  .orb-1 { width: 400px; height: 400px; background: var(--teal); top: -100px; right: 10%; animation: float 8s ease-in-out infinite; }
+  .orb-2 { width: 250px; height: 250px; background: var(--gold); bottom: 10%; left: 5%; animation: float 10s ease-in-out infinite reverse; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(0,181,163,0.15); border: 1px solid rgba(0,181,163,0.3);
+    color: var(--teal); padding: 0.4rem 1rem; border-radius: 50px;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero-badge::before { content: '✦'; }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900; line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+  h1 em { color: var(--teal); font-style: italic; }
+
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(255,255,255,0.65);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--teal); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-size: 1rem; font-weight: 600; text-decoration: none;
+    transition: all 0.3s; box-shadow: 0 8px 32px rgba(0,181,163,0.35);
+  }
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,181,163,0.45); }
+  .btn-primary svg { transition: transform 0.3s; }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent; color: rgba(255,255,255,0.8);
+    padding: 0.9rem 2rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
+    font-size: 1rem; font-weight: 500; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+  .hero-trust {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.8s ease 1s both;
+  }
+  .trust-avatars { display: flex; }
+  .trust-avatars span {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--navy);
+    background: linear-gradient(135deg, var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700; color: white;
+    margin-left: -8px;
+  }
+  .trust-avatars span:first-child { margin-left: 0; }
+  .trust-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .trust-text strong { color: var(--white); display: block; }
+
+  /* Hero right — card */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 2;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .booking-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border-radius: 24px; padding: 2rem;
+    width: 340px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  }
+  .booking-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white); font-size: 1.3rem; margin-bottom: 1.5rem;
+  }
+
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .form-group select, .form-group input {
+    width: 100%; padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; color: var(--white); font-size: 0.9rem; font-family: 'DM Sans', sans-serif;
+    outline: none; transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-group select option { background: var(--navy); }
+  .form-group select:focus, .form-group input:focus { border-color: var(--teal); }
+  .form-group input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .card-submit {
+    width: 100%; padding: 0.9rem;
+    background: var(--teal); color: white;
+    border: none; border-radius: 10px;
+    font-size: 1rem; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+  .card-submit:hover { background: var(--teal-light); transform: translateY(-2px); }
+
+  .card-note { text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.75rem; }
+
+  /* Floating stat chips */
+  .stat-chip {
+    position: absolute;
+    background: var(--white); border-radius: 14px;
+    padding: 0.7rem 1rem; display: flex; align-items: center; gap: 0.6rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    font-size: 0.82rem; font-weight: 600; color: var(--text);
+    animation: chipFloat 3s ease-in-out infinite;
+  }
+  .stat-chip .chip-icon { font-size: 1.3rem; }
+  .stat-chip .chip-val { font-size: 1rem; font-weight: 700; color: var(--teal); }
+  .chip-1 { top: 10%; left: -40px; animation-delay: 0s; }
+  .chip-2 { bottom: 15%; right: -30px; animation-delay: 1.5s; }
+  @keyframes chipFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--white);
+    padding: 2.5rem 5%;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem; border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 900; color: var(--navy);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--teal); }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; font-weight: 500; }
+
+  /* ── SERVICES ── */
+  .services {
+    padding: 6rem 5%;
+    background: var(--cream);
+  }
+  .section-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; color: var(--navy); line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; }
+
+  .services-header { margin-bottom: 3.5rem; }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--white); border-radius: 20px;
+    padding: 2rem; border: 1px solid rgba(0,0,0,0.06);
+    transition: all 0.35s; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .service-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0,181,163,0.12), rgba(0,181,163,0.04));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+    border: 1px solid rgba(0,181,163,0.15);
+  }
+  .service-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700; color: var(--navy);
+    margin-bottom: 0.6rem;
+  }
+  .service-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+  .service-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--teal);
+    text-decoration: none; margin-top: 1rem;
+    transition: gap 0.2s;
+  }
+  .service-link:hover { gap: 0.7rem; }
+
+  /* ── WHY US ── */
+  .why {
+    padding: 6rem 5%;
+    background: var(--navy);
+    position: relative; overflow: hidden;
+  }
+  .why::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,181,163,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .why .section-title { color: var(--white); }
+  .why .section-sub { color: rgba(255,255,255,0.55); }
+
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center; margin-top: 3.5rem;
+  }
+
+  .why-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    padding: 1.4rem; border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.3s;
+  }
+  .why-item:hover { background: rgba(0,181,163,0.06); border-color: rgba(0,181,163,0.2); }
+  .why-num {
+    min-width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(0,181,163,0.15); border: 1px solid rgba(0,181,163,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; color: var(--teal);
+  }
+  .why-item h5 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; }
+  .why-item p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* Testimonial card right */
+  .testimonial-stack { display: flex; flex-direction: column; gap: 1.2rem; }
+  .tcard {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px; padding: 1.6rem;
+    transition: transform 0.3s;
+  }
+  .tcard:hover { transform: translateX(6px); }
+  .tcard-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 0.8rem; letter-spacing: 2px; }
+  .tcard p { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin-bottom: 1rem; }
+  .tcard-author { display: flex; align-items: center; gap: 0.75rem; }
+  .tcard-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; color: white;
+  }
+  .tcard-name { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+  .tcard-role { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+
+  /* ── PROCESS ── */
+  .process {
+    padding: 6rem 5%; background: var(--warm);
+  }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    margin-top: 3.5rem; position: relative;
+  }
+  .process-steps::before {
+    content: ''; position: absolute;
+    top: 32px; left: 12.5%; right: 12.5%; height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    z-index: 0;
+  }
+  .step { text-align: center; position: relative; z-index: 1; }
+  .step-dot {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--white); border: 3px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem; font-size: 1.4rem;
+    box-shadow: 0 4px 20px rgba(0,181,163,0.2);
+    transition: all 0.3s;
+  }
+  .step:hover .step-dot { background: var(--teal); transform: scale(1.1); }
+  .step:hover .step-dot span { filter: invert(1) brightness(10); }
+  .step h5 { font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 0.4rem; }
+  .step p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    margin: 0 5% 6rem;
+    background: linear-gradient(135deg, var(--teal) 0%, #007A6E 100%);
+    border-radius: 28px; padding: 4rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+  .cta-banner::after {
+    content: '';
+    position: absolute; bottom: -60px; left: 30%;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .cta-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900; color: white; line-height: 1.15; margin-bottom: 0.75rem;
+  }
+  .cta-text p { color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.6; }
+  .cta-actions { display: flex; gap: 1rem; flex-shrink: 0; }
+  .btn-white {
+    background: white; color: var(--teal);
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-weight: 700; font-size: 1rem; text-decoration: none;
+    transition: all 0.3s; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    white-space: nowrap;
+  }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.2); }
+  .btn-outline-white {
+    background: transparent; color: white;
+    padding: 0.9rem 2rem; border-radius: 50px; border: 2px solid rgba(255,255,255,0.5);
+    font-weight: 600; font-size: 1rem; text-decoration: none;
+    transition: all 0.3s; white-space: nowrap;
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy); padding: 4rem 5% 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .footer-brand .logo { display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 260px; }
+  .footer-col h6 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
+  .footer-col a { display: block; font-size: 0.88rem; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 0.55rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--teal); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06); padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: rgba(255,255,255,0.3);
+  }
+  .footer-badges { display: flex; gap: 1rem; }
+  .badge {
+    background: rgba(0,181,163,0.1); border: 1px solid rgba(0,181,163,0.2);
+    color: var(--teal); padding: 0.3rem 0.7rem; border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 7rem 5% 3rem; text-align: center; }
+    .hero-sub, .hero-trust { max-width: 100%; }
+    .hero-actions, .hero-trust { justify-content: center; }
+    .hero-visual { margin-top: 2.5rem; }
+    .chip-1, .chip-2 { display: none; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .process-steps { grid-template-columns: repeat(2, 1fr); }
+    .process-steps::before { display: none; }
+    .cta-banner { flex-direction: column; text-align: center; }
+    .cta-actions { flex-direction: column; align-items: center; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav ul { display: none; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 24px;
+    padding: 2.5rem; width: 90%; max-width: 460px;
+    position: relative; animation: modalIn 0.35s ease;
+  }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted);
+  }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.4rem; }
+  .modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .modal-form .form-group label { color: var(--muted); }
+  .modal-form .form-group input, .modal-form .form-group select {
+    background: var(--cream); border-color: rgba(0,0,0,0.12); color: var(--text);
+  }
+  .modal-form .form-group input::placeholder { color: var(--muted); }
+  .modal-form .form-group select option { background: white; color: var(--text); }
+  .modal-submit {
+    width: 100%; padding: 0.9rem;
+    background: var(--teal); color: white; border: none; border-radius: 10px;
+    font-size: 1rem; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.3s; margin-top: 0.5rem;
+  }
+  .modal-submit:hover { background: var(--teal-light); }
+  .modal-success { display: none; text-align: center; padding: 1rem 0; }
+  .modal-success .check { font-size: 3rem; margin-bottom: 1rem; }
+  .modal-success h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.5rem; }
+  .modal-success p { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Vita<span>Care</span></div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <a href="#" class="nav-cta" onclick="openModal()">Book Appointment</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Accepting New Patients · 2026</div>
+    <h1>Healthcare That <em>Fits</em> Your Life</h1>
+    <p class="hero-sub">VitaCare puts board-certified providers, same-day telehealth, and personalized care plans at your fingertips — no long waits, no insurance headaches.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" onclick="openModal()">
+        Book Free Consultation
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn-ghost">Explore Services</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-avatars">
+        <span>JL</span><span>MP</span><span>SR</span><span>KD</span><span>+</span>
+      </div>
+      <div class="trust-text">
+        <strong>4,800+ Patients Trust VitaCare</strong>
+        Rated 4.9 ★ across Google & Healthgrades
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="stat-chip chip-1">
+      <span class="chip-icon">⚡</span>
+      <div><div class="chip-val">Same Day</div>Telehealth available</div>
+    </div>
+
+    <div class="booking-card">
+      <h3>Request an Appointment</h3>
+      <div class="form-group">
+        <label>Service Type</label>
+        <select>
+          <option>Primary Care Visit</option>
+          <option>Telehealth Consultation</option>
+          <option>Preventive Wellness Exam</option>
+          <option>Chronic Disease Management</option>
+          <option>Mental Health Support</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date"/>
+      </div>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="First & Last Name"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="(555) 000-0000"/>
+      </div>
+      <button class="card-submit" onclick="handleCardSubmit()">Request Appointment →</button>
+      <p class="card-note">🔒 HIPAA-secure · No spam, ever</p>
+    </div>
+
+    <div class="stat-chip chip-2">
+      <span class="chip-icon">🏅</span>
+      <div><div class="chip-val">Top Rated</div>2026 Healthgrades</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item reveal">
+    <div class="stat-num">4<span>,800</span>+</div>
+    <div class="stat-label">Patients Served</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num">4<span>.9</span>★</div>
+    <div class="stat-label">Average Rating</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num">12<span>+</span></div>
+    <div class="stat-label">Board-Certified Providers</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num">&lt;<span>24</span>hr</div>
+    <div class="stat-label">Average Wait Time</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <span class="section-tag">What We Offer</span>
+    <h2 class="section-title">Care for Every Chapter<br>of Your Health Journey</h2>
+    <p class="section-sub">From routine checkups to complex chronic care, our team delivers expert treatment with the warmth of a neighborhood practice.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🩺</div>
+      <h4>Primary Care</h4>
+      <p>Comprehensive annual exams, illness treatment, preventive screenings, and long-term health management with a provider who knows your history.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">💻</div>
+      <h4>Telehealth</h4>
+      <p>See a provider from anywhere — same-day video visits for urgent concerns, prescription refills, mental health check-ins, and follow-ups.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">❤️</div>
+      <h4>Chronic Care Management</h4>
+      <p>Dedicated care plans for diabetes, hypertension, asthma, and more — with AI-assisted monitoring between visits to keep you on track.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">🧠</div>
+      <h4>Mental Health Support</h4>
+      <p>Therapy, psychiatric evaluation, and medication management — integrated directly into your primary care experience for seamless support.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">🌿</div>
+      <h4>Preventive Wellness</h4>
+      <p>Personalized wellness plans, lab panels, nutrition guidance, and lifestyle coaching — built around your goals, not a generic checklist.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">👶</div>
+      <h4>Pediatric Care</h4>
+      <p>Compassionate care from birth through adolescence — well-child visits, immunizations, developmental screenings, and sick visits.</p>
+      <a href="#" class="service-link" onclick="openModal()">Book Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US + TESTIMONIALS -->
+<section class="why" id="why">
+  <span class="section-tag reveal">Why VitaCare</span>
+  <h2 class="section-title reveal">Built Around <em style="color:var(--teal);font-style:italic">You</em>,<br>Not the System</h2>
+
+  <div class="why-grid" id="testimonials">
+    <div class="why-list">
+      <div class="why-item reveal">
+        <div class="why-num">01</div>
+        <div>
+          <h5>Same-Day Access, Always</h5>
+          <p>No 3-week waits. Book urgent telehealth visits same day, or in-person within 48 hours — guaranteed.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-1">
+        <div class="why-num">02</div>
+        <div>
+          <h5>HIPAA-Secure at Every Step</h5>
+          <p>Your data is protected with enterprise-grade encryption, signed BAAs with all vendors, and zero data selling — ever.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <div class="why-num">03</div>
+        <div>
+          <h5>AI-Assisted, Human-Led Care</h5>
+          <p>Smart monitoring tools flag changes between visits, but every decision is made by a real, board-certified provider who knows you.</p>
+        </div>
+      </div>
+      <div class="why-item reveal reveal-delay-3">
+        <div class="why-num">04</div>
+        <div>
+          <h5>Transparent, Upfront Pricing</h5>
+          <p>No surprise bills. We accept major insurance plans and offer clear self-pay rates for every service we provide.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-stack">
+      <div class="tcard reveal">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"I've been a patient for two years and the difference from my old practice is night and day. Same-day telehealth appointments, a provider who actually remembers my history, and I've never waited more than 20 minutes."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">JL</div>
+          <div>
+            <div class="tcard-name">Jamie L.</div>
+            <div class="tcard-role">Patient since 2024 · Google Review</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal reveal-delay-1">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"Managing my Type 2 diabetes felt overwhelming before VitaCare. The chronic care team set me up with a clear plan, checks in between visits, and my A1C is the best it's been in a decade."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">MP</div>
+          <div>
+            <div class="tcard-name">Marcus P.</div>
+            <div class="tcard-role">Patient since 2023 · Healthgrades</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal reveal-delay-2">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"Finally a practice that takes mental health seriously as part of primary care. My provider coordinates everything in one place — I don't have to repeat myself to five different doctors anymore."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">SR</div>
+          <div>
+            <div class="tcard-name">Sofia R.</div>
+            <div class="tcard-role">Patient since 2025 · Zocdoc</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="reveal" style="text-align:center; max-width:500px; margin:0 auto;">
+    <span class="section-tag">Getting Started</span>
+    <h2 class="section-title">From Search to Seen<br>in 4 Simple Steps</h2>
+  </div>
+  <div class="process-steps">
+    <div class="step reveal">
+      <div class="step-dot"><span>📋</span></div>
+      <h5>Choose Your Service</h5>
+      <p>Pick the type of care you need — in-person or telehealth — and select a time that works for you.</p>
+    </div>
+    <div class="step reveal reveal-delay-1">
+      <div class="step-dot"><span>✅</span></div>
+      <h5>Confirm & Register</h5>
+      <p>Complete your secure intake form online — takes under 5 minutes. No paperwork on arrival.</p>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <div class="step-dot"><span>🩺</span></div>
+      <h5>Meet Your Provider</h5>
+      <p>See a board-certified physician who reviews your full history and listens — not just your chief complaint.</p>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <div class="step-dot"><span>🔁</span></div>
+      <h5>Ongoing Care Plan</h5>
+      <p>Leave with a clear action plan, easy prescription access, and a care team that follows up proactively.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <div class="cta-text">
+    <h2>Your Health Can't Wait.<br>Neither Should You.</h2>
+    <p>Join 4,800+ patients getting care that actually fits their life. New patient appointments available this week.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="#" class="btn-white" onclick="openModal()">Book Free Consultation</a>
+    <a href="tel:+15550001234" class="btn-outline-white">📞 Call Us Now</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">Vita<span>Care</span></span>
+      <p>Modern, HIPAA-compliant healthcare built around your life — not our schedule. Accepting new patients now.</p>
+      <div style="display:flex;gap:0.6rem;margin-top:1.2rem;">
+        <span class="badge">HIPAA Compliant</span>
+        <span class="badge">Accepting Patients</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h6>Services</h6>
+      <a href="#">Primary Care</a>
+      <a href="#">Telehealth</a>
+      <a href="#">Chronic Care</a>
+      <a href="#">Mental Health</a>
+      <a href="#">Pediatrics</a>
+    </div>
+    <div class="footer-col">
+      <h6>Company</h6>
+      <a href="#">About Us</a>
+      <a href="#">Our Providers</a>
+      <a href="#">Patient Reviews</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="footer-col">
+      <h6>Contact</h6>
+      <a href="tel:+15550001234">(555) 000-1234</a>
+      <a href="mailto:hello@vitacare.com">hello@vitacare.com</a>
+      <a href="#">Patient Portal Login</a>
+      <a href="#">Insurance We Accept</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 VitaCare Health. All rights reserved.</span>
+    <span>HIPAA Notice of Privacy Practices · Terms of Service · Accessibility</span>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-form-view">
+      <h3>Book Your Appointment</h3>
+      <p>We'll confirm within 2 hours. Same-day telehealth also available.</p>
+      <div class="modal-form">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Jane Smith"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="jane@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="(555) 000-0000"/>
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select>
+            <option>Primary Care Visit</option>
+            <option>Telehealth Consultation</option>
+            <option>Chronic Care Management</option>
+            <option>Mental Health Support</option>
+            <option>Preventive Wellness</option>
+            <option>Pediatric Care</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date"/>
+        </div>
+        <button class="modal-submit" onclick="submitModal()">Request Appointment →</button>
+        <p class="card-note" style="color:var(--muted);margin-top:0.75rem;">🔒 100% HIPAA-secure · No spam</p>
+      </div>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <div class="check">✅</div>
+      <h4>Request Received!</h4>
+      <p>Our team will call or text you within 2 hours to confirm your appointment. See you soon!</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Modal
+  function openModal(e) { if(e) e.preventDefault(); document.getElementById('modal').classList.add('open'); }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modal-form-view').style.display = 'block';
+    document.getElementById('modal-success').style.display = 'none';
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  function submitModal() {
+    document.getElementById('modal-form-view').style.display = 'none';
+    document.getElementById('modal-success').style.display = 'block';
+  }
+
+  function handleCardSubmit() {
+    openModal();
+  }
+
+  // Smooth scroll nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // Set min date on date inputs
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[type="date"]').forEach(d => d.min = today);
+</script>
+</body>
+</html>
